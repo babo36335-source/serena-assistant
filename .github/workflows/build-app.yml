@@ -20,18 +20,19 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
-      - name: Grant Execute Permission for Gradlew
-        run: chmod +x gradlew || true
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Create debug.keystore and environment
+        run: |
+          keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+          echo "GEMINI_API_KEY=MY_GEMINI_API_KEY" > .env
+          echo "sdk.dir=$ANDROID_HOME" > local.properties
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
 
-      - name: Create local.properties & .env
-        run: |
-          echo "GEMINI_API_KEY=MY_GEMINI_API_KEY" > .env
-          echo "sdk.dir=$ANDROID_HOME" > local.properties
-
-      - name: Build APK and Bundle (AAB)
+      - name: Build APK and AAB
         run: |
           gradle :app:assembleDebug :app:bundleDebug --no-daemon
 
