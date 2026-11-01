@@ -5,13 +5,15 @@
     <key>CFBundleDevelopmentRegion</key>
     <string>ko</string>
     <key>CFBundleExecutable</key>
-    <string>$(EXECUTABLE_NAME)</string>
+    <string>Serena</string>
+    <key>CFBundleDisplayName</key>
+    <string>세레나</string>
     <key>CFBundleIdentifier</key>
     <string>com.aistudio.serena</string>
     <key>CFBundleInfoDictionaryVersion</key>
     <string>6.0</string>
     <key>CFBundleName</key>
-    <string>세레나</string>
+    <string>Serena</string>
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleShortVersionString</key>

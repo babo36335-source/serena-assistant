@@ -1,0 +1,37 @@
+name: Build Serena iOS IPA
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build-ios:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Select Xcode Version
+        run: sudo xcode-select -s /Applications/Xcode.app
+
+      - name: Compile Swift App Binary
+        run: |
+          mkdir -p build/Payload/Serena.app
+          SDK_PATH=$(xcrun --sdk iphoneos --show-sdk-path)
+          swiftc -target arm64-apple-ios16.0 -sdk "$SDK_PATH" -O -emit-executable ios/Serena/SerenaApp.swift ios/Serena/ContentView.swift -o build/Payload/Serena.app/Serena
+          cp ios/Serena/Info.plist build/Payload/Serena.app/Info.plist
+          codesign --force --deep --sign - build/Payload/Serena.app || true
+
+      - name: Package into IPA
+        run: |
+          cd build
+          zip -qr ../Serena.ipa Payload
+          cd ..
+
+      - name: Upload Serena IPA Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Serena-iOS-IPA
+          path: Serena.ipa
