@@ -1,0 +1,6 @@
+{
+  "name": "세레나",
+  "description": "귀여운 보라색 테마의 똑똑하고 다정한 AI 비서 세레나와 실시간으로 대화할 수 있는 스마트 어시스턴트 앱",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
